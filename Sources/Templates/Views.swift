@@ -56,15 +56,29 @@ public extension Templates {
                     child
 
                     if child.id != last {
-                        Divider()
-                            .opacity(color == nil ? 1 : 0)
-                            .overlay {
-                                if let color = color {
-                                    Color(uiColor: color)
+                        if #available(iOS 15.0, *) {
+                            Divider()
+                                .opacity(color == nil ? 1 : 0)
+                                .overlay {
+                                    if let color = color {
+                                        Color(uiColor: color)
+                                    }
                                 }
-                            }
-                            .padding(.leading, leadingMargin)
-                            .padding(.trailing, trailingMargin)
+                                .padding(.leading, leadingMargin)
+                                .padding(.trailing, trailingMargin)
+                        } else {
+                            // Fallback on earlier versions
+                            Divider()
+                                .opacity(color == nil ? 1 : 0)
+                                .overlay(Color(color ?? .clear))
+//                                .overlay {
+//                                    if let color = color {
+//                                        Color(uiColor: color)
+//                                    }
+//                                }
+                                .padding(.leading, leadingMargin)
+                                .padding(.trailing, trailingMargin)
+                        }
                     }
                 }
             }
